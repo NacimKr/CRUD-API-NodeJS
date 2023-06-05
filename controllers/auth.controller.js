@@ -1,10 +1,13 @@
 const userModels = require("../models/userModels")
 var jwt = require('jsonwebtoken');
+const validator = require('validator')
 
 const signUp = (req, res) => {
+  const {login, password} = req.body;
+
   const signUpUser = new userModels({
-    login:req.body.login,
-    password:req.body.password
+    login,
+    password
   })
   signUpUser.save()
 
@@ -20,7 +23,7 @@ const login = async(req, res) => {
   if(!getUserToLogin){
     res.status(404).json({
       message:"Utilisateur introuvable"
-    })
+    });
   }
 
   const isValidPassword = req.body.password === getUserToLogin[0].password

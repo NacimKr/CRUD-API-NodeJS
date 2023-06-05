@@ -54,7 +54,7 @@ const update = async(req, res) => {
 const deleted = async(req, res) => {
   const getTokenForDelelete = req.headers.authorization.split(' ')[1];
   const isSameUser = jwt.verify(getTokenForDelelete, "shhhhh")
-  const jsonToObject = JSON.parse(req.body.user)
+  const jsonToObject = JSON.parse(req.body.user);
 
   if(jsonToObject.userID === isSameUser.id){
     await userCRUDModel.findOneAndDelete(
@@ -62,6 +62,8 @@ const deleted = async(req, res) => {
       {...req.body}
     );
 
+    // Cette fonction permet de supprimer le fichier lié 
+    // au user selectionnée par son id
     fs.unlinkSync(req.file.path)
 
     res.status(200).json({

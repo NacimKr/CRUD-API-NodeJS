@@ -1,11 +1,17 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/node-test');
+//Envoie d'erreur en cas de crache du serveur
+const handleError = err => {
+  return err
+}
 
-// // const userSchema = new mongoose.Schema({
-// //   name: {type: String, requred: true},
-// //   image: {type: String, requred: true}
-// // });
+const main = async() => {
+  try{
+    await mongoose.connect('mongodb://127.0.0.1:27017/node-test')
+      .catch(() => handleError("Erreur de connexion au serveur MongoDB"));
+  }catch(error){
+    handleError(error)
+  }
+}
 
-// // module.exports = mongoose.model('User', userSchema);
-module.exports = mongoose;
+module.exports = main();
